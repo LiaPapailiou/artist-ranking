@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ArtistList = (props) => {
-  const [count, setCount] = useState();
   const { artist } = props;
   // console.log(count);
   return (
@@ -30,13 +29,10 @@ const ArtistList = (props) => {
                   </td>
                   <td style={{ paddingRight: '1em', paddingLeft: '2em', paddingBottom: '1em' }}>
                     <button type="button" onClick={() => {
-                      // setCount('increment');
-                      console.log(item.id)
-                      props.onClick(item.id);
+                      props.onIncClick(item.id);
                     }}> + </button>
                     <button type="button" onClick={() => {
-                      setCount('decrement');
-                      props.onClick(item.id, count);
+                      props.onDecClick(item.id);
                     }}> - </button>
                   </td>
                 </tr>

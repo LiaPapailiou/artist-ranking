@@ -4,11 +4,11 @@ const AddArtist = (props) => {
   const [artist, setArtist] = useState({
     artistName: '',
   });
-  // console.log(props);
+
   const onChange = (e) => {
     setArtist({ ...artist, [e.target.name]: e.target.value });
   };
-  // console.log(artist.artistName);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     props.onSubmit(artist.artistName);

@@ -1,5 +1,6 @@
 export const ADD_ARTIST = 'ADD_ARTIST';
 export const EDIT_ARTIST = 'EDIT_ARTIST';
 export const ADD_ARTIST_PICTURE = 'ADD_ARTIST_PICTURE';
-export const CHANGE_RATING = 'CHANGE_RATING';
+export const CHANGE_RATING_INC = 'CHANGE_RATING_INC';
+export const CHANGE_RATING_DEC = 'CHANGE_RATING_DEC';
 
