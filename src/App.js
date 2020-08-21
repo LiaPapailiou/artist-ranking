@@ -46,8 +46,7 @@ const artistReducer = (state, action) => {
       let temp = [...state.artist];
       return {
         ...state,
-        // artist: [{ ...temp[idx], artistStars: temp[idx].artistStars + 1 }],
-        // artist: [temp[idx], { artistStars: temp[idx].artistStars + 1 }],
+        artist: [...state.artist.slice(0, idx), { ...temp[idx], artistStars: temp[idx].artistStars + 1 }, ...state.artist.slice(idx + 1)],
       };
     // case DECREMENT_STARS:
     //   return {
