@@ -1,26 +1,73 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'
 import AddArtist from './components/AddArtist'
 import EditArtist from './components/EditArtist'
 import ArtistList from './components/ArtistList'
-// import './App.css';
+import {
+  ADD_ARTIST,
+  EDIT_ARTIST,
+  INCREMENT_STARS,
+  DECREMENT_STARS
+} from './types'
 
-function App() {
-  const [artists, setArtists] = useState([
+const INITIAL_STATE = {
+  counter: 0,
+  artist: [
     {
+      id: 0,
       artistName: '',
-      artistURL: '',
-      stars: 0,
-    },
-  ])
+      artistPhoto: '',
+      artistStars: 0,
+    }
+  ],
+};
+
+const artistReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case ADD_ARTIST:
+      const newCounter = state.counter + 1;
+      const newArtist = {
+        id: newCounter,
+        artistName: action.artistName,
+        artistPhoto: '',
+        artistStars: '',
+      };
+      return {
+        counter: newCounter,
+        artist: [...state.artist, newArtist],
+      }
+    case EDIT_ARTIST:
+      return {
+        artist: [...state.artist, { [action.field]: action.value }]
+      }
+    case INCREMENT_STARS:
+      return {
+        artist: [...state.artist, { artistStars: state.artistStars + 1 }]
+      }
+    case DECREMENT_STARS:
+      return {
+        artist: [...state.artist, { artistStars: state.artistStars - 1 }]
+      }
+    default:
+      return INITIAL_STATE;
+  }
+}
+const artistContext = React.createContext(null);
+function App() {
+  const [state, dispatch] = useReducer(artistReducer, INITIAL_STATE);
+  const { artist } = state;
+  // console.log('IN APP', artist)
   return (
     <div className="App">
-      <h1>hi</h1>
-      <Router>
-        <AddArtist path='/' artistName={artists.artistName} onSubmit={(value) => setArtists(value)} />
-        <ArtistList path='/' artists={artists} onStateChange={(value) => setArtists(value)} />
-        <EditArtist patch='/:artist_name' artistName={artists.artistName} artistURL={artists.artistURL} onSubmit={(value) => setArtists(value)} />
-      </Router>
+      <h1>Artist Ranking List</h1>
+      <artistContext.Provider value={{ state, dispatch }}>
+        <Router>
+          <AddArtist path='/' onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />
+          <ArtistList path='/' artist={artist} />
+          {/* {artist.artistName && <EditArtist patch='/:id' onSubmit={(field, value) => dispatch({ type: EDIT_ARTIST, [field]: value })} />} */}
+        </Router>
+      </artistContext.Provider>
     </div>
   );
 }
