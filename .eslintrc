@@ -4,7 +4,7 @@
     "browser": true
   },
   "plugins": [
-    "mocha"
+    "jest"
   ],
   "parserOptions": {
     "sourceType": "module",
@@ -21,6 +21,7 @@
           ".js"
         ]
       }
-    ]
+    ],
+    "linebreak-style": 0,
   }
 }

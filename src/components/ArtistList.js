@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { useHistory, Link } from 'react-router-dom';
+// import { Link } from 'react-router';
 
 const ArtistList = (props) => {
+  const history = useHistory();
   const { artist } = props;
-  console.log(artist)
+  console.log(artist);
   return (
     <div>
       <table>
@@ -16,11 +19,22 @@ const ArtistList = (props) => {
         <tbody>
           {Array.isArray(artist) && artist.map((item, idx) => {
             if (idx > 0) {
-              return (<tr key={idx} style={{ listStyleType: 'none' }}>
-                <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>{item.artistName}</td>
-                <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>{item.artistStars} ⭐️ </td>
-                <td style={{ paddingRight: '1em', paddingLeft: '2em', paddingBottom: '1em' }} > <button>+</button><button>-</button></td>
-              </tr>)
+              return (
+                <tr key={Math.floor(Math.random() * 50) + 1} style={{ listStyleType: 'none' }}>
+                  <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
+                    <Link to={`/${item.id}`} >
+                      {item.artistName}
+                    </Link>
+                  </td>
+                  <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
+                    {item.artistStars} ⭐️
+                </td>
+                  <td style={{ paddingRight: '1em', paddingLeft: '2em', paddingBottom: '1em' }} >
+                    <button type="button"> + </button>
+                    <button type="button"> - </button>
+                  </td>
+                </tr>
+              );
             }
           })}
         </tbody>
@@ -30,4 +44,4 @@ const ArtistList = (props) => {
   )
 }
 
-export default ArtistList
+export default ArtistList;

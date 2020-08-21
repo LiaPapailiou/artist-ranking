@@ -1,11 +1,5 @@
-import React from 'react'
+// import React from 'react';
 
-const EditArtist = (props) => {
-  return (
-    <div>
+const EditArtist = () => { };
 
-    </div>
-  )
-}
-
-export default EditArtist
+export default EditArtist;
