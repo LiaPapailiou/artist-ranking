@@ -31,7 +31,7 @@ const artistReducer = (state, action) => {
         id: newCounter,
         artistName: action.artistName,
         artistPhoto: '',
-        artistStars: '',
+        artistStars: 0,
       };
       return {
         counter: newCounter,
