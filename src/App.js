@@ -1,13 +1,13 @@
 import React, { useReducer } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import AddArtist from './components/AddArtist';
 // import EditArtist from './components/EditArtist'
 import ArtistList from './components/ArtistList';
 import {
   ADD_ARTIST,
   EDIT_ARTIST,
-  INCREMENT_STARS,
-  DECREMENT_STARS,
+  CHANGE_RATING,
 } from './types';
 
 const INITIAL_STATE = {
@@ -41,14 +41,18 @@ const artistReducer = (state, action) => {
       return {
         artist: [...state.artist, { [action.field]: action.value }],
       };
-    case INCREMENT_STARS:
+    case CHANGE_RATING:
+      const idx = state.artist.findIndex((item) => item.id === action.id);
+      let temp = [...state.artist];
       return {
-        artist: [...state.artist, { artistStars: state.artistStars + 1 }],
+        ...state,
+        // artist: [{ ...temp[idx], artistStars: temp[idx].artistStars + 1 }],
+        // artist: [temp[idx], { artistStars: temp[idx].artistStars + 1 }],
       };
-    case DECREMENT_STARS:
-      return {
-        artist: [...state.artist, { artistStars: state.artistStars - 1 }],
-      };
+    // case DECREMENT_STARS:
+    //   return {
+    //     artist: [...state.artist, { artistStars: state.artistStars - 1 }],
+    //   };
     default:
       return INITIAL_STATE;
   }
@@ -61,19 +65,30 @@ function App() {
   // const handleSubmit = (field, value) => {
   //   dispatch({ type: EDIT_ARTIST, [field]: value });
   // }
-  // console.log('IN APP', artist)
+  console.log('IN APP', artist)
+  // const handleClick = (value) => {
+  //   console.log('HANDLE', value);
+  //   dispatch({ type: CHANGE_RATING });
+  // };
+
   return (
     <div className="App">
       <h1>Artist Ranking List</h1>
       <artistContext.Provider value={{ state, dispatch }}>
         <Router>
           <AddArtist path="/" onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />
-          <ArtistList path="/" artist={artist} />
-          {/* <EditArtist patch='/:id' onSubmit={(field, value) => handleSubmit(field, value))} /> */}
+          <ArtistList path="/" artist={artist} onClick={(id) => dispatch({ type: CHANGE_RATING, id: id })} />
+          {/* <EditArtist path='/artist/:id' onSubmit={(field, value) => handleSubmit(field, value))} /> */}
         </Router>
       </artistContext.Provider>
+      <pre>{JSON.stringify(state, null, 2)}</pre>
     </div>
   );
 }
+
+App.propTypes = {
+  artist: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+  // INITIAL_STATE: PropTypes.object.isRequired,
+};
 
 export default App;
