@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-
+import shortid from 'shortid';
 const ArtistList = (props) => {
+  const [sortedField, setSortedField] = useState(null);
   const { artist } = props;
-  // console.log(count);
+  const sorted = [...artist]
+  useMemo(() => {
+    sorted.map((item) => {
+      if (item.id === 0) {
+        sorted.shift(item);
+      }
+    })
+    if (sortedField !== null) {
+      sorted.sort((a, b) => a.artistStars > b.artistStars ? -1 : 1);
+    };
+    setSortedField(sorted);
+    return sorted;
+  }, [artist]);
+
+  console.log('SORTED:', sortedField);
   return (
     <div>
       <table>
@@ -15,10 +30,10 @@ const ArtistList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(artist) && artist.map((item, idx) => {
-            if (idx > 0) {
+          {Array.isArray(sortedField) && sortedField.map((item) => {
+            if (item.id > 0) {
               return (
-                <tr key={Math.floor(Math.random() * 50) + 1} style={{ listStyleType: 'none' }}>
+                <tr key={shortid.generate()} style={{ listStyleType: 'none' }}>
                   <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
                     <Link to={`/artist/${item.id}`}>
                       {item.artistName}
