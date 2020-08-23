@@ -23,6 +23,8 @@
       }
     ],
     "linebreak-style": 0,
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": 0,
+    "react/default-props-match-prop-types": 0
   }
 }

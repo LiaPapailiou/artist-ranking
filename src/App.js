@@ -41,6 +41,13 @@ const artistReducer = (state, action) => {
   const tempInc = [...state.artist];
   const idxDec = state.artist.findIndex((item) => item.id === action.id);
   const tempDec = [...state.artist];
+  const artistNew = {
+    id: action.id,
+    artistName: action.artistName,
+    artistPhoto: action.artistPhoto,
+    artistStars: action.artistStars,
+  };
+  const idx = state.artist.findIndex((item) => item.id === action.id);
   switch (type) {
     case ADD_ARTIST:
       return {
@@ -48,8 +55,7 @@ const artistReducer = (state, action) => {
         artist: [...state.artist, newArtist],
       };
     case EDIT_ARTIST:
-      const artistNew = action.data;
-      const idx = state.artist.findIndex((item) => item.id === action.data.id);
+      // const artistNew = action.data;
       return {
         ...state,
         artist: [...state.artist.slice(0, idx), artistNew, ...state.artist.slice(idx + 1)],
@@ -115,7 +121,13 @@ function App() {
               render={(props) => (
                 <EditArtist
                   {...props}
-                  onSubmit={(data) => dispatch({ type: EDIT_ARTIST, data })}
+                  onSubmit={(data) => dispatch({
+                    type: EDIT_ARTIST,
+                    id: data.id,
+                    artistName: data.artistName,
+                    artistPhoto: data.artistPhoto,
+                    artistStars: data.artistStars,
+                  })}
                 />
               )}
             />
