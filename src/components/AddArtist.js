@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const AddArtist = (props) => {
   const [artist, setArtist] = useState({
@@ -30,6 +31,10 @@ const AddArtist = (props) => {
       <button type="submit">Add</button>
     </form>
   );
+};
+
+AddArtist.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default AddArtist;

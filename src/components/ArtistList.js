@@ -6,25 +6,27 @@ import ArtistContext from '../ArtistContext';
 const ArtistList = (props) => {
   const [sortedArtist, setSortedArtist] = useState(null);
   const context = useContext(ArtistContext);
-  const sorted = [...context.state.artist];
+  const { artist } = context.state;
+  const sorted = [...artist];
 
   useMemo(() => {
     sorted.map((item) => {
       if (item.id === 0) {
         sorted.shift(item);
       }
-    })
+      return item;
+    });
     sorted.sort((a, b) => a.artistStars > b.artistStars ? -1 : 1);
     setSortedArtist(sorted);
     return sorted;
-  }, [context.state.artist]);
+  }, [artist]);
 
   return (
     <div>
       <table>
         <thead>
           <tr>
-            <th style={{ padding: '2em' }}></th>
+            <th style={{ padding: '2em' }} />
             <th style={{ padding: '2em' }}>Artist Name</th>
             <th style={{ padding: '2em' }}>Artist Rating</th>
             <th style={{ padding: '2em' }}>Vote</th>
@@ -36,7 +38,10 @@ const ArtistList = (props) => {
               return (
                 <tr key={shortid.generate()}>
                   <td>
-                    {item.artistPhoto && <img src={item.artistPhoto} style={{ height: 40, width: 40 }}></img>}
+                    {
+                      item.artistPhoto &&
+                      <img src={item.artistPhoto} alt='' style={{ height: 40, width: 40 }} />
+                    }
                   </td>
                   <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
                     <Link to={`/artist/${item.id}`} id={item.id}>

@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
-import ArtistContext from '../ArtistContext'
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import ArtistContext from '../ArtistContext';
 
 const EditArtist = (props) => {
   const history = useHistory();
   const value = useContext(ArtistContext);
-  const idx = value.state.artist.findIndex((item) => item.id == props.match.params.id);
+  const { artist } = value.state;
+  const idx = artist.findIndex((item) => item.id === parseInt(props.match.params.id, 10));
   const current = value.state.artist[idx];
   const [formData, setFormData] = useState({
     id: !current ? '' : current.id,
@@ -15,8 +17,8 @@ const EditArtist = (props) => {
   });
 
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ const EditArtist = (props) => {
       artistName: '',
       artistPhoto: '',
     });
-  }
+  };
 
   return (
     <form onSubmit={(e) => onSubmit(e)}>
@@ -46,8 +48,17 @@ const EditArtist = (props) => {
       />
       <button type="submit">Edit</button>
       <button type="button" onClick={() => history.push('/home')}>Go Back</button>
-    </form >
-  )
+    </form>
+  );
+};
+
+EditArtist.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
 export default EditArtist;

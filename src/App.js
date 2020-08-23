@@ -1,9 +1,9 @@
 import React, { useReducer } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ArtistContext from './ArtistContext'
+import ArtistContext from './ArtistContext';
 import AddArtist from './components/AddArtist';
-import EditArtist from './components/EditArtist'
+import EditArtist from './components/EditArtist';
 import ArtistList from './components/ArtistList';
 import {
   ADD_ARTIST,
@@ -74,7 +74,6 @@ const artistReducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = useReducer(artistReducer, INITIAL_STATE);
-  const { artist } = state;
 
   return (
     <div className="App">
@@ -87,6 +86,7 @@ function App() {
               <ArtistList onIncClick={(id) => dispatch({ type: CHANGE_RATING_INC, id: id })}
                 onDecClick={(id) => dispatch({ type: CHANGE_RATING_DEC, id: id })}
               />}></Route>
+          <Redirect to="/home" />
           <Switch>
             <Route exact path="/artist/:id"
               render={(props) => <EditArtist {...props} onSubmit={(data) => dispatch({ type: EDIT_ARTIST, data })} />}>
