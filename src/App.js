@@ -70,14 +70,11 @@ const artistReducer = (state, action) => {
   }
 };
 
+// https://bookingagentinfo.com/wp-content/uploads/2018/03/Ocean-Wisdom-Contact-Information.jpg
 
 function App() {
   const [state, dispatch] = useReducer(artistReducer, INITIAL_STATE);
   const { artist } = state;
-
-  const handleSubmit = (data) => {
-    dispatch({ type: EDIT_ARTIST, data });
-  };
 
   return (
     <div className="App">
@@ -96,7 +93,7 @@ function App() {
           </Switch>
         </Router>
       </ArtistContext.Provider>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
     </div>
   );
 }

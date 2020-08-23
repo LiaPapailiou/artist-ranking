@@ -23,6 +23,7 @@ const ArtistList = (props) => {
       <table>
         <thead>
           <tr>
+            <th style={{ padding: '2em' }}></th>
             <th style={{ padding: '2em' }}>Artist Name</th>
             <th style={{ padding: '2em' }}>Artist Rating</th>
             <th style={{ padding: '2em' }}>Vote</th>
@@ -33,6 +34,9 @@ const ArtistList = (props) => {
             if (item.id > 0) {
               return (
                 <tr key={shortid.generate()}>
+                  <td>
+                    {item.artistPhoto && <img src={item.artistPhoto} style={{ height: 40, width: 40 }}></img>}
+                  </td>
                   <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
                     <Link to={`/artist/${item.id}`}>
                       {item.artistName}
