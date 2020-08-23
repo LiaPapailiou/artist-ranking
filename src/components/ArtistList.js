@@ -7,7 +7,8 @@ import ArtistContext from '../ArtistContext';
 const ArtistList = (props) => {
   const [sortedArtist, setSortedArtist] = useState(null);
   const context = useContext(ArtistContext);
-  const { artist } = context.state;
+  const { state } = context;
+  const { artist } = state;
   const sorted = [...artist];
 
   useMemo(() => {
@@ -35,36 +36,32 @@ const ArtistList = (props) => {
         </thead>
         <tbody>
           {Array.isArray(sortedArtist)
-            && sortedArtist.map((item) => {
-              if (item.id > 0) {
-                return (
-                  <tr key={shortid.generate()}>
-                    <td>
-                      {
-                        item.artistPhoto
-                        && <img src={item.artistPhoto} alt="" style={{ height: 40, width: 40 }} />
-                      }
-                    </td>
-                    <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
-                      <Link to={`/artist/${item.id}`} id={item.id}>
-                        {item.artistName}
-                      </Link>
-                    </td>
-                    <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
-                      {item.artistStars} ⭐️
-                    </td>
-                    <td style={{ paddingRight: '1em', paddingLeft: '2em', paddingBottom: '1em' }}>
-                      <button type="button" onClick={() => props.onIncClick(item.id)}>
-                        +
-                      </button>
-                      <button type="button" onClick={() => props.onDecClick(item.id)}>
-                        -
-                      </button>
-                    </td>
-                  </tr>
-                );
-              }
-            })}
+            && sortedArtist.filter((item) => item.id > 0).map((item) => (
+              <tr key={shortid.generate()}>
+                <td>
+                  {
+                    item.artistPhoto
+                    && <img src={item.artistPhoto} alt="" style={{ height: 30, width: 30 }} />
+                  }
+                </td>
+                <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
+                  <Link to={`/artist/${item.id}`}>
+                    {item.artistName}
+                  </Link>
+                </td>
+                <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
+                  {item.artistStars} ⭐️
+                </td>
+                <td style={{ paddingRight: '1em', paddingLeft: '2em', paddingBottom: '1em' }}>
+                  <button type="button" onClick={() => props.onIncClick(item.id)}>
+                    +
+                  </button>
+                  <button type="button" onClick={() => props.onDecClick(item.id)}>
+                    -
+                  </button>
+                </td>
+              </tr>
+            ))},
         </tbody>
       </table>
     </div>
