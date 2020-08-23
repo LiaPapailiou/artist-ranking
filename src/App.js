@@ -1,6 +1,10 @@
 import React, { useReducer } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import ArtistContext from './ArtistContext';
 import AddArtist from './components/AddArtist';
 import EditArtist from './components/EditArtist';
@@ -33,6 +37,10 @@ const artistReducer = (state, action) => {
     artistPhoto: '',
     artistStars: 0,
   };
+  const idxInc = state.artist.findIndex((item) => item.id === action.id);
+  const tempInc = [...state.artist];
+  const idxDec = state.artist.findIndex((item) => item.id === action.id);
+  const tempDec = [...state.artist];
   switch (type) {
     case ADD_ARTIST:
       return {
@@ -40,37 +48,39 @@ const artistReducer = (state, action) => {
         artist: [...state.artist, newArtist],
       };
     case EDIT_ARTIST:
-      const idx = state.artist.findIndex((item) => item.id === action.data.id);
       const artistNew = action.data;
+      const idx = state.artist.findIndex((item) => item.id === action.data.id);
       return {
         ...state,
         artist: [...state.artist.slice(0, idx), artistNew, ...state.artist.slice(idx + 1)],
       };
     case CHANGE_RATING_INC:
-      const idx_inc = state.artist.findIndex((item) => item.id === action.id);
-      let temp_inc = [...state.artist];
       return {
         ...state,
-        artist: [...state.artist.slice(0, idx_inc), { ...temp_inc[idx_inc], artistStars: temp_inc[idx_inc].artistStars + 1 }, ...state.artist.slice(idx_inc + 1)],
+        artist: [
+          ...state.artist.slice(0, idxInc),
+          { ...tempInc[idxInc], artistStars: tempInc[idxInc].artistStars + 1 },
+          ...state.artist.slice(idxInc + 1),
+        ],
       };
     case CHANGE_RATING_DEC:
-      const idx_dec = state.artist.findIndex((item) => item.id === action.id);
-      let temp_dec = [...state.artist];
-      if (temp_dec[idx_dec].artistStars < 1) {
+      if (tempDec[idxDec].artistStars < 1) {
         return {
           ...state,
         };
       }
       return {
         ...state,
-        artist: [...state.artist.slice(0, idx_dec), { ...temp_dec[idx_dec], artistStars: temp_dec[idx_dec].artistStars - 1 }, ...state.artist.slice(idx_dec + 1)],
+        artist: [
+          ...state.artist.slice(0, idxDec),
+          { ...tempDec[idxDec], artistStars: tempDec[idxDec].artistStars - 1 },
+          ...state.artist.slice(idxDec + 1),
+        ],
       };
     default:
       return INITIAL_STATE;
   }
 };
-
-
 
 function App() {
   const [state, dispatch] = useReducer(artistReducer, INITIAL_STATE);
@@ -80,27 +90,40 @@ function App() {
       <h1>Artist Ranking List</h1>
       <ArtistContext.Provider value={{ state, dispatch }}>
         <Router>
-          <Route path="/home" render={() => <AddArtist onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />}></Route>
-          <Route path="/home"
-            render={() =>
-              <ArtistList onIncClick={(id) => dispatch({ type: CHANGE_RATING_INC, id: id })}
-                onDecClick={(id) => dispatch({ type: CHANGE_RATING_DEC, id: id })}
-              />}></Route>
+          <Route
+            path="/home"
+            render={() => (
+              <AddArtist
+                onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })}
+              />
+            )}
+          />
+          <Route
+            path="/home"
+            render={() => (
+              <ArtistList
+                onIncClick={(incId) => dispatch({ type: CHANGE_RATING_INC, id: incId })}
+                onDecClick={(decId) => dispatch({ type: CHANGE_RATING_DEC, id: decId })}
+              />
+            )}
+          />
           <Redirect to="/home" />
           <Switch>
-            <Route exact path="/artist/:id"
-              render={(props) => <EditArtist {...props} onSubmit={(data) => dispatch({ type: EDIT_ARTIST, data })} />}>
-            </Route>
+            <Route
+              exact
+              path="/artist/:id"
+              render={(props) => (
+                <EditArtist
+                  {...props}
+                  onSubmit={(data) => dispatch({ type: EDIT_ARTIST, data })}
+                />
+              )}
+            />
           </Switch>
         </Router>
       </ArtistContext.Provider>
-      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
     </div>
   );
 }
-
-App.propTypes = {
-  artist: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
-};
 
 export default App;
