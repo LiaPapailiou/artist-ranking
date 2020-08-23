@@ -39,7 +39,7 @@ const ArtistList = (props) => {
                     {item.artistPhoto && <img src={item.artistPhoto} style={{ height: 40, width: 40 }}></img>}
                   </td>
                   <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
-                    <Link to={`/artist/${item.id}`}>
+                    <Link to={`/artist/${item.id}`} id={item.id}>
                       {item.artistName}
                     </Link>
                   </td>

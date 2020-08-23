@@ -70,7 +70,7 @@ const artistReducer = (state, action) => {
   }
 };
 
-// https://bookingagentinfo.com/wp-content/uploads/2018/03/Ocean-Wisdom-Contact-Information.jpg
+
 
 function App() {
   const [state, dispatch] = useReducer(artistReducer, INITIAL_STATE);
@@ -81,18 +81,20 @@ function App() {
       <h1>Artist Ranking List</h1>
       <ArtistContext.Provider value={{ state, dispatch }}>
         <Router>
-          <AddArtist exact path="/" onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />
-          <ArtistList
-            exact path="/"
-            onIncClick={(id) => dispatch({ type: CHANGE_RATING_INC, id: id })}
-            onDecClick={(id) => dispatch({ type: CHANGE_RATING_DEC, id: id })}
-          />
+          <Route path="/home" render={() => <AddArtist onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />}></Route>
+          <Route path="/home"
+            render={() =>
+              <ArtistList onIncClick={(id) => dispatch({ type: CHANGE_RATING_INC, id: id })}
+                onDecClick={(id) => dispatch({ type: CHANGE_RATING_DEC, id: id })}
+              />}></Route>
           <Switch>
-            <EditArtist exact path='/artist/:id' onSubmit={(data) => dispatch({ type: EDIT_ARTIST, data })} />
+            <Route exact path="/artist/:id"
+              render={(props) => <EditArtist {...props} onSubmit={(data) => dispatch({ type: EDIT_ARTIST, data })} />}>
+            </Route>
           </Switch>
         </Router>
       </ArtistContext.Provider>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
     </div>
   );
 }
