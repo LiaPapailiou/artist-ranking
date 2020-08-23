@@ -1,11 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import shortid from 'shortid';
+import ArtistContext from '../ArtistContext';
 
 const ArtistList = (props) => {
   const [sortedArtist, setSortedArtist] = useState(null);
-  const { artist } = props;
-  const sorted = [...artist];
+  const context = useContext(ArtistContext);
+  const sorted = [...context.state.artist];
 
   useMemo(() => {
     sorted.map((item) => {
@@ -16,7 +17,7 @@ const ArtistList = (props) => {
     sorted.sort((a, b) => a.artistStars > b.artistStars ? -1 : 1);
     setSortedArtist(sorted);
     return sorted;
-  }, [artist]);
+  }, [context.state.artist]);
 
   return (
     <div>

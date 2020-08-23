@@ -44,7 +44,7 @@ const artistReducer = (state, action) => {
       const artistNew = action.data;
       return {
         ...state,
-        artist: [...state.artist.slice(0, idx), artistNew],
+        artist: [...state.artist.slice(0, idx), artistNew, ...state.artist.slice(idx + 1)],
       };
     case CHANGE_RATING_INC:
       const idx_inc = state.artist.findIndex((item) => item.id === action.id);
@@ -84,7 +84,6 @@ function App() {
           <AddArtist exact path="/" onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />
           <ArtistList
             exact path="/"
-            artist={artist}
             onIncClick={(id) => dispatch({ type: CHANGE_RATING_INC, id: id })}
             onDecClick={(id) => dispatch({ type: CHANGE_RATING_DEC, id: id })}
           />
@@ -93,7 +92,7 @@ function App() {
           </Switch>
         </Router>
       </ArtistContext.Provider>
-      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
+      <pre>{JSON.stringify(state, null, 2)}</pre>
     </div>
   );
 }
