@@ -41,9 +41,10 @@ const artistReducer = (state, action) => {
       };
     case EDIT_ARTIST:
       const idx = state.artist.findIndex((item) => item.id === action.data.id);
+      const artistNew = action.data;
       return {
         ...state,
-        artist: [...state.artist.slice(0, idx), [action.data]],
+        artist: [...state.artist.slice(0, idx), artistNew],
       };
     case CHANGE_RATING_INC:
       const idx_inc = state.artist.findIndex((item) => item.id === action.id);
@@ -91,7 +92,7 @@ function App() {
             onDecClick={(id) => dispatch({ type: CHANGE_RATING_DEC, id: id })}
           />
           <Switch>
-            <EditArtist exact path='/artist/:id' onSubmit={(data) => console.log(data)} />
+            <EditArtist exact path='/artist/:id' onSubmit={(data) => dispatch({ type: EDIT_ARTIST, data })} />
           </Switch>
         </Router>
       </ArtistContext.Provider>
