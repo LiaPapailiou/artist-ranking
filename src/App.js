@@ -1,6 +1,7 @@
-import React, { useReducer, useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React, { useReducer } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ArtistContext from './ArtistContext'
 import AddArtist from './components/AddArtist';
 import EditArtist from './components/EditArtist'
 import ArtistList from './components/ArtistList';
@@ -39,8 +40,10 @@ const artistReducer = (state, action) => {
         artist: [...state.artist, newArtist],
       };
     case EDIT_ARTIST:
+      const idx = state.artist.findIndex((item) => item.id === action.data.id);
       return {
-        artist: [...state.artist, { [action.field]: action.value }],
+        ...state,
+        artist: [...state.artist.slice(0, idx), [action.data]],
       };
     case CHANGE_RATING_INC:
       const idx_inc = state.artist.findIndex((item) => item.id === action.id);
@@ -65,49 +68,33 @@ const artistReducer = (state, action) => {
       return INITIAL_STATE;
   }
 };
-// function useLocallyPersistedReducer(reducer, defaultState, storageKey, init = null) {
-//   const hookVars = useReducer(reducer, defaultState, (defaultState) => {
-//     const persisted = JSON.parse(localStorage.getItem(storageKey))
-//     return persisted !== null
-//       ? persisted
-//       : init !== null ? init(defaultState) : defaultState
-//   })
 
-//   useEffect(() => {
-//     localStorage.setItem(storageKey, JSON.stringify(hookVars[0]))
-//   }, [storageKey, hookVars[0]])
 
-//   return hookVars
-// }
-const artistContext = React.createContext(null);
 function App() {
   const [state, dispatch] = useReducer(artistReducer, INITIAL_STATE);
   const { artist } = state;
 
-  const handleSubmit = (field, value) => {
-    dispatch({ type: EDIT_ARTIST, [field]: value });
-  }
-
-  // console.log('IN APP', artist)
+  const handleSubmit = (data) => {
+    dispatch({ type: EDIT_ARTIST, data });
+  };
 
   return (
     <div className="App">
       <h1>Artist Ranking List</h1>
-      <artistContext.Provider value={{ state, dispatch }}>
+      <ArtistContext.Provider value={{ state, dispatch }}>
         <Router>
-          <AddArtist path="/" onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />
+          <AddArtist exact path="/" onSubmit={(name) => dispatch({ type: ADD_ARTIST, artistName: name })} />
           <ArtistList
-            path="/"
+            exact path="/"
             artist={artist}
             onIncClick={(id) => dispatch({ type: CHANGE_RATING_INC, id: id })}
             onDecClick={(id) => dispatch({ type: CHANGE_RATING_DEC, id: id })}
           />
-          <Route path='/artist/:id' onSubmit={(field, value) => handleSubmit(field, value)}
-            render={(artist) => <artistContext.Provider value={{ state, dispatch }}>
-              <EditArtist {...artist} />
-            </artistContext.Provider>}></Route>
+          <Switch>
+            <EditArtist exact path='/artist/:id' onSubmit={(data) => console.log(data)} />
+          </Switch>
         </Router>
-      </artistContext.Provider>
+      </ArtistContext.Provider>
       <pre>{JSON.stringify(state, null, 2)}</pre>
     </div>
   );

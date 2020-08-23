@@ -8,6 +8,11 @@ const ArtistList = (props) => {
   const sorted = [...artist];
 
   useMemo(() => {
+    sorted.map((item) => {
+      if (item.id === 0) {
+        sorted.shift(item);
+      }
+    })
     sorted.sort((a, b) => a.artistStars > b.artistStars ? -1 : 1);
     setSortedArtist(sorted);
     return sorted;
