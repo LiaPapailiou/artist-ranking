@@ -33,21 +33,27 @@ const EditArtist = (props) => {
     <form onSubmit={(e) => onSubmit(e)}>
       <input
         type="text"
-        placeholder="Edit name"
+        placeholder="edit name..."
         name="artistName"
         value={formData.artistName}
+        className="input-field"
         onChange={(e) => onChange(e)}
         required
       />
+      <br />
       <input
         type="text"
-        placeholder="Photo link"
+        placeholder="photo link..."
         name="artistPhoto"
+        className="input-field"
         onChange={(e) => onChange(e)}
         value={formData.artistPhoto}
       />
-      <button type="submit">Edit</button>
-      <button type="button" onClick={() => history.push('/home')}>Go Back</button>
+      <br />
+      <div className="btn-control">
+        <button type="submit" className="btn">Edit</button>
+        <button type="button" className="btn" onClick={() => history.push('/home')}>Back</button>
+      </div>
     </form>
   );
 };

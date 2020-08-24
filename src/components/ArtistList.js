@@ -25,13 +25,13 @@ const ArtistList = (props) => {
 
   return (
     <div>
-      <table>
+      <table className="table">
         <thead>
           <tr>
-            <th aria-label="Artist Photo" style={{ padding: '2em' }} />
-            <th style={{ padding: '2em' }}>Artist Name</th>
-            <th style={{ padding: '2em' }}>Artist Rating</th>
-            <th style={{ padding: '2em' }}>Vote</th>
+            <th aria-label="Artist Photo" />
+            <th>Artist Name</th>
+            <th>Artist Rating</th>
+            <th>Vote</th>
           </tr>
         </thead>
         <tbody>
@@ -41,23 +41,23 @@ const ArtistList = (props) => {
                 <td>
                   {
                     item.artistPhoto
-                    && <img src={item.artistPhoto} alt="" style={{ height: 30, width: 30 }} />
+                    && <img src={item.artistPhoto} alt="" style={{ height: 30, width: 30, paddingTop: '0.5em' }} />
                   }
                 </td>
-                <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
+                <td>
                   <Link to={`/artist/${item.id}`}>
                     {item.artistName}
                   </Link>
                 </td>
-                <td style={{ paddingRight: '2em', paddingLeft: '2em', paddingBottom: '1em' }}>
+                <td>
                   {item.artistStars} ⭐️
                 </td>
-                <td style={{ paddingRight: '1em', paddingLeft: '2em', paddingBottom: '1em' }}>
-                  <button type="button" onClick={() => props.onIncClick(item.id)}>
-                    +
+                <td>
+                  <button type="button" className="btn-i" onClick={() => props.onIncClick(item.id)}>
+                    <i className="fas fa-chevron-up" style={{ color: '#11998e' }} />
                   </button>
-                  <button type="button" onClick={() => props.onDecClick(item.id)}>
-                    -
+                  <button type="button" className="btn-i" onClick={() => props.onDecClick(item.id)}>
+                    <i className="fas fa-chevron-down" style={{ color: '#11998e' }} />
                   </button>
                 </td>
               </tr>

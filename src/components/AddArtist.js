@@ -23,12 +23,13 @@ const AddArtist = (props) => {
       <input
         type="text"
         name="artistName"
+        className="input-field"
         value={artist.artistName}
-        placeholder="Artist Name"
         required
+        placeholder="type something..."
         onChange={(e) => onChange(e)}
       />
-      <button type="submit">Add</button>
+      <button type="submit" className="btn">Add</button>
     </form>
   );
 };

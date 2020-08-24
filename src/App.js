@@ -5,6 +5,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import './App.css';
 import ArtistContext from './ArtistContext';
 import AddArtist from './components/AddArtist';
 import EditArtist from './components/EditArtist';
@@ -55,7 +56,6 @@ const artistReducer = (state, action) => {
         artist: [...state.artist, newArtist],
       };
     case EDIT_ARTIST:
-      // const artistNew = action.data;
       return {
         ...state,
         artist: [...state.artist.slice(0, idx), artistNew, ...state.artist.slice(idx + 1)],
@@ -93,7 +93,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Artist Ranking List</h1>
       <ArtistContext.Provider value={{ state, dispatch }}>
         <Router>
           <Route
@@ -134,6 +133,7 @@ function App() {
           </Switch>
         </Router>
       </ArtistContext.Provider>
+      {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
     </div>
   );
 }
