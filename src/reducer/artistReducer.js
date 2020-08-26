@@ -1,21 +1,10 @@
+import INITIAL_STATE from '../initialState';
 import {
   ADD_ARTIST,
   EDIT_ARTIST,
   CHANGE_RATING_INC,
   CHANGE_RATING_DEC,
 } from '../types';
-
-const INITIAL_STATE = {
-  counter: 0,
-  artist: [
-    {
-      id: 0,
-      artistName: '',
-      artistPhoto: '',
-      artistStars: 0,
-    },
-  ],
-};
 
 const artistReducer = (state, action) => {
   const { type } = action;

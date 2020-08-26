@@ -11,24 +11,13 @@ import AddArtist from './components/AddArtist';
 import EditArtist from './components/EditArtist';
 import ArtistList from './components/ArtistList';
 import artistReducer from './reducer/artistReducer';
+import INITIAL_STATE from './initialState';
 import {
   ADD_ARTIST,
   EDIT_ARTIST,
   CHANGE_RATING_INC,
   CHANGE_RATING_DEC,
 } from './types';
-
-const INITIAL_STATE = {
-  counter: 0,
-  artist: [
-    {
-      id: 0,
-      artistName: '',
-      artistPhoto: '',
-      artistStars: 0,
-    },
-  ],
-};
 
 function App() {
   const [state, dispatch] = useReducer(artistReducer, INITIAL_STATE);
