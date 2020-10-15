@@ -8,7 +8,8 @@
 A simple SPA that ranks artists according to rating. There is an option to add an artist and an option to edit each artist.
 
 ## Technologies
-* React JS
+* React JS Hooks
+* React Context API
 
 ## Installation
 
